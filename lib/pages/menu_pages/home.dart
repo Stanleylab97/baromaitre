@@ -1,6 +1,7 @@
 import 'package:baromaitre/blocs/navigation/navigation_bloc.dart';
 import 'package:baromaitre/pages/dashboard/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
         leading: Builder(
           builder: (context) {
           return InkWell(
-            child: Icon(Icons.menu, color: Colors.black, size: 35),
+            child: Icon(FontAwesomeIcons.bars,color: Colors.black),
             onTap: ()=> Scaffold.of(context).openDrawer(),
           );
         },),
@@ -67,73 +68,7 @@ class _HomeState extends State<Home> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)),
           color: Colors.white
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          physics: ClampingScrollPhysics(),
-          child:  Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                Container(
-                  height: 200,
-                  child: PageView(
-                    controller: PageController(viewportFraction: 0.8),
-                    scrollDirection: Axis.horizontal,
-                    pageSnapping: true,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.redAccent,
-                        width: 100,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.blue,
-                        width: 100,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.green,
-                        width: 100,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.yellowAccent,
-                        width: 100,
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Transactions',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
-                ),
-                SizedBox(height: 5),
-                ListView.separated(
-                  shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("MacBook"),
-                        subtitle: Text("Apple"),
-                        trailing: Text("-200"),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 3,
-                        color: Colors.black45,
-                      );
-                    },
-                    itemCount: 10),
-                SizedBox(height: 20)
-              ],
-            ),
-          ),
-
+        )
       ),
     );
   }

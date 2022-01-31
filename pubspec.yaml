@@ -70,6 +70,7 @@ dependencies:
   simple_animations: ^4.0.1
   country_code_picker: ^2.0.2
   font_awesome_flutter: ^9.2.0
+  sliding_up_panel: ^2.0.0+1
 
   firebase_auth: ^3.3.5
   firebase_storage: ^10.2.5

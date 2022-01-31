@@ -1,3 +1,4 @@
+import 'package:baromaitre/pages/menu_pages/external_profile.dart';
 import 'package:baromaitre/pages/menu_pages/parameters.dart';
 import 'package:flutter/material.dart';
 import 'package:baromaitre/pages/dashboard/drawer_item.dart';
@@ -8,6 +9,8 @@ import 'package:baromaitre/pages/menu_pages/home.dart';
 import 'package:baromaitre/pages/menu_pages/offres.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:baromaitre/pages/menu_pages/profile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class NavigationDrawer extends StatelessWidget {
             children: [
               InkWell(child: headerWidget(),
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Profil()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ExternalProfile()));
                 },
               ),
               const SizedBox(height: 40,),
@@ -37,13 +40,13 @@ class NavigationDrawer extends StatelessWidget {
               const SizedBox(height: 30,),
               DrawerItem(
                   name: 'Offres',
-                  icon: Icons.account_box_rounded,
+                  icon: FontAwesomeIcons.handshake,
                   onPressed: ()=> onItemPressed(context, index: 6)
               ),
               const SizedBox(height: 30,),
               DrawerItem(
                   name: 'Cabinet',
-                  icon: Icons.account_box_rounded,
+                  icon: FontAwesomeIcons.university,
                   onPressed: ()=> onItemPressed(context, index: 1)
               ),
               const SizedBox(height: 30,),
