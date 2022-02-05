@@ -75,10 +75,10 @@ class _ExternalProfileState extends State<ExternalProfile> {
           const SizedBox(height: 24),
           NumbersWidget(),
           const SizedBox(height: 48),
-          buildAbout(user),
+
       SlidingUpPanel(
         panel: Center(
-          child: Text("This is the sliding Widget"),
+          child: Text("Voir plus"),
         ),
 
         collapsed: Container(
@@ -87,15 +87,12 @@ class _ExternalProfileState extends State<ExternalProfile> {
               borderRadius: radius
           ),
           child: Center(
-            child: Text(
-              "This is the collapsed Widget",
-              style: TextStyle(color: Colors.white),
-            ),
+            child: buildAbout(user),
           ),
         ),
 
         body: Center(
-          child: Text("This is the Widget behind the sliding panel"),
+          child: buildAbout(user),
         ),
 
         borderRadius: radius,

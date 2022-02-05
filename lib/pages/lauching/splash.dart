@@ -1,3 +1,4 @@
+import 'package:baromaitre/pages/lauching/login.dart';
 import 'package:baromaitre/pages/menu_pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -66,7 +67,7 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(Duration(milliseconds: 5000)).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Home()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     });
   }
