@@ -1,4 +1,4 @@
-import 'package:baromaitre/blocs/navigation/navigation_bloc.dart';
+import 'package:baromaitre/blocs/navigation_bloc.dart';
 import 'package:baromaitre/pages/dashboard/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      drawer: const NavigationDrawer(),
+      drawer:  NavigationDrawer(),
       body: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 48),
         decoration: BoxDecoration(

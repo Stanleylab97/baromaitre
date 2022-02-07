@@ -1,4 +1,4 @@
-import 'package:baromaitre/blocs/navigation/navigation_bloc.dart';
+import 'package:baromaitre/blocs/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
 class Forum extends StatefulWidget {

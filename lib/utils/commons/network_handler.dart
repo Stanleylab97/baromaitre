@@ -6,23 +6,20 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
   String baseurl =
-      "https://baroplux.com";
+      "https://baroplux.com/api";
   var log = Logger();
 
   FlutterSecureStorage storage = FlutterSecureStorage();
 
-  Future get(var url) async {
-    String? token = await storage.read(key: "token");
-     url = formater(url);
-
-    // /user/register
-    var response = await http.get(url,headers: {"Authorization": "Bearer $token"});
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.i(response.body);
-      return json.decode(response.body);
-    }
-    /* log.i(response.body);
-    log.i(response.statusCode); */
+  Future getAccountStatus(var url,String token) async {
+    url = formater(url);
+    var response = await http.get(
+      url,
+      headers: {"Content-type": "application/json"},
+    );
+    log.i(response.body);
+    log.i(response.statusCode);
+    return response;
   }
 
 
@@ -43,9 +40,9 @@ class NetworkHandler {
   Future<http.Response> checkMatricule(var url, String token) async {
 
     url = formater(url);
-    var response = await http.post(url,headers: {"Content-type": "application/json", "Authorization": "Bearer $token"});
+    var response = await http.get(url,headers: {"Content-type": "application/json", "Authorization": "Bearer $token"});
     log.i(response.body);
-    log.i(response.statusCode);
+    //log.i(response.statusCode);
     return response;
   }
 

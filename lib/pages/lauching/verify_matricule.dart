@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:baromaitre/models/loyer_data.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:connectivity/connectivity.dart';
@@ -7,6 +8,7 @@ import 'package:baromaitre/pages/lauching/register.dart';
 import 'package:baromaitre/utils/commons/network_handler.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:logger/logger.dart';
 
 class MatriculeVerify extends StatefulWidget {
@@ -21,13 +23,14 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
   var log = Logger();
   NetworkHandler networkHandler = NetworkHandler();
   late String token;
+  late var avocat;
   bool circular = false;
   bool validate = false;
   TextEditingController matricule = TextEditingController();
   @override
   Widget build(BuildContext context) {
     //Communication Started with API
-    Map<String, String> _login_data = {"email": "", "password": ""};
+    Map<String, String> _login_data = {"email": "system@baroplux.com", "password": "b@roMa!7R"};
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -49,7 +52,7 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
                 ),
               ),
               SizedBox(
-                height: 18,
+                height: 5,
               ),
               Container(
                 width: 200,
@@ -63,10 +66,11 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
                 ),
               ),
               SizedBox(
-                height: 24,
+                height: 14,
               ),
               Text(
                 'Procédons à votre identification au barreau',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -85,10 +89,10 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 28,
+                height: 8,
               ),
               Container(
-                padding: EdgeInsets.all(28),
+                padding: EdgeInsets.only(left: 28, right: 28, top: 10, bottom: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -186,40 +190,31 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
       try {
         var isDeviceConnected = false;
         print('Inside try');
-        verifyMatricule("4|LMCpg0lFbitmvyy6NQBcksbiyGhZIoZ1ADWKyoI6");
+       // verifyMatricule("4|LMCpg0lFbitmvyy6NQBcksbiyGhZIoZ1ADWKyoI6");
         if (true) {
           print('User device connected to internet');
-          verifyMatricule("4|LMCpg0lFbitmvyy6NQBcksbiyGhZIoZ1ADWKyoI6");
+
           circular=false;
-          // var response = await networkHandler.post("/users/register", login_data);
-          // if (response.statusCode == 200 || response.statusCode == 201) {
-          //   Map<String, dynamic> output = json.decode(response.body);
-          //   /*setState(() {
-          //     token = output["token"];
-          //   });*/
-          //  // verifyMatricule("4|LMCpg0lFbitmvyy6NQBcksbiyGhZIoZ1ADWKyoI6");
-          // } else {
-          //   CherryToast.error(
-          //     title: '',
-          //     enableIconAnimation: false,
-          //     displayTitle: false,
-          //     description: 'Invalid account information',
-          //     animationType: ANIMATION_TYPE.fromRight,
-          //     animationDuration: Duration(milliseconds: 1000),
-          //     autoDismiss: true,
-          //   ).show(context);
-          //   Flushbar(
-          //     message: "Une erreur s'est produite",
-          //     icon: Icon(
-          //       Icons.info_outline,
-          //       size: 28.0,
-          //       color: Colors.blue[300],
-          //     ),
-          //     duration: Duration(seconds: 3),
-          //     leftBarIndicatorColor: Colors.blue[300],
-          //   )..show(context);
-          // }
-        } else {
+          var response = await networkHandler.post("/login", login_data);
+          if (response.statusCode == 200 || response.statusCode == 201) {
+            Map<String, dynamic> output = json.decode(response.body);
+           // setState(() {
+              token = output["token"];
+          //  });
+            verifyMatricule(token,matricule_data);
+          } else{
+            CherryToast.error(
+              title: '',
+              enableIconAnimation: false,
+              displayTitle: false,
+              description: 'Echec de connexion',
+              animationType: ANIMATION_TYPE.fromRight,
+              animationDuration: Duration(milliseconds: 1000),
+              autoDismiss: true,
+            ).show(context);
+          }
+        } else
+        {
           Flushbar(
             title: "Hey Ninja",
             message:
@@ -284,22 +279,27 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
     }
   }
 
-  Future<void> verifyMatricule(String token) async {
+  Future<void> verifyMatricule(String token, String user_matricule) async {
+    setState(() {
+      validate = true;
+      circular = true;
+    });
     try {
-      var isDeviceConnected = false;
-
+      //var isDeviceConnected = false;
       if (true) {
+
         var response = await networkHandler.checkMatricule(
-            "/api/verify-matricule/" + matricule.text.trim(), token);
+            "/verify-matricule?matricule=" + user_matricule, token);
         if (response.statusCode == 200 || response.statusCode == 201) {
+          print("Matricule got");
           Map<String, dynamic> output = json.decode(response.body);
-          print(response);
-          print(output);
-          setState(() {
+          avocat= LoyerAppData(matricule: output["matricule"], nom: output["nom"], prenom: output["prenom"], sexe: output["sexe"], email: output["email"] , specialite: "Droit des affaires", country_code: output["country_code"], contact: output["contact"], cabinet: output["cabinet"], dateSermont: output["date_sermont"]);
+          matricule.clear();
+          setState((){
             circular = false;
             validate = false;
           });
-          var avocat = response;
+
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -308,7 +308,7 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
               (route) => false);
         } else if (response.statusCode == 404) {
           CherryToast.error(
-              title:  "",
+              title:  "Désolé",
               displayTitle:  false,
               description:  "Ce matricule n'est pas reconnu!",
               animationType: ANIMATION_TYPE.fromTop,
@@ -326,52 +326,14 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
           ).show(context);
         }
       } else {
-        Flushbar(
-          title: "Hey Ninja",
-          message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          reverseAnimationCurve: Curves.decelerate,
-          forwardAnimationCurve: Curves.elasticOut,
-          backgroundColor: Colors.red,
-          boxShadows: [
-            BoxShadow(
-                color: Colors.blue, offset: Offset(0.0, 2.0), blurRadius: 3.0)
-          ],
-          backgroundGradient:
-              LinearGradient(colors: [Colors.blueGrey, Colors.black]),
-          isDismissible: false,
-          duration: Duration(seconds: 4),
-          icon: Icon(
-            Icons.info_outline,
-            color: Colors.greenAccent,
-          ),
-          mainButton: FlatButton(
-            onPressed: () {},
-            child: Text(
-              "BAD",
-              style: TextStyle(color: Colors.amber),
-            ),
-          ),
-          showProgressIndicator: true,
-          progressIndicatorBackgroundColor: Colors.blueGrey,
-          titleText: Text(
-            "Connexion impossible",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                color: Colors.yellow[600],
-                fontFamily: "ShadowsIntoLightTwo"),
-          ),
-          messageText: Text(
-            "Vérifiez votre connexion internet!",
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.green,
-                fontFamily: "ShadowsIntoLightTwo"),
-          ),
-        );
+        CherryToast.error(
+            title:  "",
+            displayTitle:  false,
+            description:  "Vérifiez votre connexion internet",
+            animationType: ANIMATION_TYPE.fromTop,
+            animationDuration: Duration(milliseconds:  2000),
+            autoDismiss:  true
+        ).show(context);
       }
     } catch (e) {
       CherryToast.error(
@@ -382,6 +344,7 @@ class _MatriculeVerifyState extends State<MatriculeVerify> {
           animationDuration: Duration(milliseconds:  2000),
           autoDismiss:  true
       ).show(context);
+    print(e.toString());
     }
   }
 

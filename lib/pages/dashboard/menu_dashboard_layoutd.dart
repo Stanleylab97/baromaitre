@@ -1,4 +1,4 @@
-import 'package:baromaitre/blocs/navigation/navigation_bloc.dart';
+import 'package:baromaitre/blocs/navigation_bloc.dart';
 import 'package:baromaitre/pages/dashboard/dashboardd.dart';
 import 'package:baromaitre/pages/menu_pages/clients.dart';
 import 'package:baromaitre/pages/menu_pages/confreres.dart';

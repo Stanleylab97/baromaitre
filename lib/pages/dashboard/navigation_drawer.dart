@@ -1,5 +1,7 @@
+import 'package:baromaitre/pages/lauching/login.dart';
 import 'package:baromaitre/pages/menu_pages/external_profile.dart';
 import 'package:baromaitre/pages/menu_pages/parameters.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:baromaitre/pages/dashboard/drawer_item.dart';
 import 'package:baromaitre/pages/menu_pages/confreres.dart';
@@ -13,7 +15,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+  NavigationDrawer({Key? key}) : super(key: key);
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +108,8 @@ class NavigationDrawer extends StatelessWidget {
         break;
       case 5:
         {
-
+          auth.signOut();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
         }
         break;
       case 6:

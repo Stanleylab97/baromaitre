@@ -63,7 +63,7 @@ class _ConfreresState extends State<Confreres> {
           ),
         ],
       ),
-      drawer: const NavigationDrawer(),
+      drawer:  NavigationDrawer(),
       body: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 16),
         decoration: BoxDecoration(

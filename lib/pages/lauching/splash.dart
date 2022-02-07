@@ -1,8 +1,13 @@
+import 'package:baromaitre/blocs/signIn_bloc.dart';
 import 'package:baromaitre/pages/lauching/login.dart';
 import 'package:baromaitre/pages/menu_pages/home.dart';
+import 'package:baromaitre/utils/commons/next_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
@@ -12,40 +17,23 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  /*late String x;
+
   afterSplash() {
     final SignInBloc sb = context.read<SignInBloc>();
     Future.delayed(Duration(milliseconds: 1000)).then((value) {
-      if (sb.isSignedIn == true || sb.guestUser == true) {
-        *//* FirebaseFirestore.instance
-            .collection('users')
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-            if (doc.id == FirebaseAuth.instance.currentUser.uid) {
-              print(doc["category"]);
-              this.x = doc["category"].toString();
-              print('Rec: ${this.x}'); *//*
-
+      if (sb.isSignedIn == true) {
         redirectUser();
-
-        *//*    });
-        }); *//*
-
       } else
         gotoSignInPage();
     });
   }
 
+
+
   Future redirectUser() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    String? cat = sp.getString('category');
-    if (cat == "Entrepreneur") {
-      print("Message: $cat");
-      nextScreenReplace(context, HomePage());
-    } else {
-      nextScreenReplace(context, Dasshboard());
-    }
+
+      nextScreenReplace(context, Home());
+
   }
 
   gotoHomePage() {
@@ -53,12 +41,12 @@ class _SplashPageState extends State<SplashPage> {
     if (sb.isSignedIn == true) {
       sb.getDataFromSp();
     }
-    nextScreenReplace(context, HomePage());
+    nextScreenReplace(context, Home());
   }
 
   gotoSignInPage() {
-    nextScreenReplace(context, WelcomePage());
-  }*/
+    nextScreenReplace(context, LoginPage());
+  }
 
   @override
   void initState() {
